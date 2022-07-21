@@ -1,18 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, Group
 
 
-class User(AbstractUser, PermissionsMixin):
-    team_choice = [
-        ("sales", "sales"),
-        ("support", "support"),
-        ("management", "management"),
-    ]
-    team = models.CharField(choices=team_choice, max_length=25, blank=True)
-    if team == "management":
-        is_staff = True
-    else:
-        is_staff = False
+class User(AbstractUser):
+    pass
 
 
 class Client(models.Model):

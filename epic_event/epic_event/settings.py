@@ -134,4 +134,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
 
-LOGIN_REDIRECT_URL = '/users'
+LOGIN_REDIRECT_URL = "/users"
+
+CSRF_COOKIE_DOMAIN = "127.0.0.1"
