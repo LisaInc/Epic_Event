@@ -13,3 +13,13 @@ class UserForm(forms.ModelForm):
             "date_joined",
             "user_permissions",
         )
+
+    def save(self, commit=False):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        user.is_staff = (
+            True if (self.cleaned_data["groups"][0].name == "managers") else False
+        )
+        if commit:
+            user.save()
+        return user

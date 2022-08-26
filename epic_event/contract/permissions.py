@@ -1,18 +1,8 @@
 from rest_framework.permissions import BasePermission
+from user.permissions import UserPermission
 
 
-class UserPermission:
-    def is_sales(user):
-        return bool(user.groups.filter(name="sales"))
-
-    def is_support(user):
-        return bool(user.groups.filter(name="supports"))
-
-    def is_manager(user):
-        return bool(user.groups.filter(name="managers"))
-
-
-class ClientPermission(BasePermission):
+class ContractPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ("list"):
             return True
