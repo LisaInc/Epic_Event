@@ -6,7 +6,7 @@ class EventPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ("list"):
             return True
-        if view.action in ("create", "update"):
+        if view.action in ("update"):
             return UserPermission.is_support(request.user) or UserPermission.is_manager(
                 request.user
             )

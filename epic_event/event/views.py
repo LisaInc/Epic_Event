@@ -13,16 +13,3 @@ class EventViewSet(ModelViewSet):
     http_method_names = ["get", "post", "put", "delete"]
     queryset = Event.objects.all()
     permission_classes = [IsAuthenticated, EventPermission]
-
-    def has_permission(self, request, view):
-        if view.action in ("list"):
-            return True
-        if view.action in ("create", "update"):
-            return UserPermission.is_support(request.user) or UserPermission.is_manager(
-                request.user
-            )
-        if view.action in ("create"):
-            return UserPermission.is_sales(request.user) or UserPermission.is_manager(
-                request.user
-            )
-        return UserPermission.is_manager(request.user)

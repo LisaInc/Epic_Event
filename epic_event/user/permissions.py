@@ -14,7 +14,7 @@ class UserPermission:
 
 class ClientPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ("list"):
+        if view.action == "list":
             return True
         if view.action in ("create", "update"):
             return UserPermission.is_sales(request.user) or UserPermission.is_manager(

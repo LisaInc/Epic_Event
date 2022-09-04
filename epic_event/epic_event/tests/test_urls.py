@@ -4,6 +4,7 @@ from django.urls import resolve, reverse
 from contract.models import Contract
 from user.models import Client, User
 from event.models import Event, EventStatus
+from datetime import datetime, timezone
 
 
 @pytest.mark.django_db
@@ -14,7 +15,7 @@ def test_client_url():
         last_name="client_test",
         email="client_test@mail.com",
         mobile="client_test",
-        date_update="2022-07-29",
+        date_update=datetime.now(tz=timezone.utc),
         company_name="client_test",
         sales_contact=user,
     )
@@ -32,18 +33,18 @@ def test_contract_url():
         last_name="client_test",
         email="client_test@mail.com",
         mobile="client_test",
-        date_update="2022-07-29",
+        date_update=datetime.now(tz=timezone.utc),
         company_name="client_test",
         sales_contact=user,
     )
     Contract.objects.create(
         sale_contact=user,
         client=client,
-        date_created="2022-07-29",
-        date_update="2022-07-29",
+        date_created=datetime.now(tz=timezone.utc),
+        date_update=datetime.now(tz=timezone.utc),
         status=True,
         amount=100,
-        payement_due="2022-07-29",
+        payement_due=datetime.now(tz=timezone.utc),
     )
     path = reverse("contract-detail", kwargs={"pk": 1})
 
@@ -59,18 +60,18 @@ def test_event_url():
         last_name="client_test",
         email="client_test@mail.com",
         mobile="client_test",
-        date_update="2022-07-29",
+        date_update=datetime.now(tz=timezone.utc),
         company_name="client_test",
         sales_contact=user,
     )
     status = EventStatus.objects.create(lib="En cours")
     Event.objects.create(
         client=client,
-        date_created="2022-07-29",
-        date_update="2022-07-29",
+        date_created=datetime.now(tz=timezone.utc),
+        date_update=datetime.now(tz=timezone.utc),
         event_status=status,
         attendees=4,
-        event_date="2022-07-29",
+        event_date=datetime.now(tz=timezone.utc),
         notes="notes",
         support_contact=user,
     )
