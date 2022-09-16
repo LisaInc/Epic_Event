@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 
 
 class User(AbstractUser):
@@ -15,4 +15,9 @@ class Client(models.Model):
     company_name = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField()
-    sales_contact = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
+    sales_contact = models.ForeignKey(
+        to=User, on_delete=models.SET_NULL, null=True, blank=True, default=None
+    )
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}, {self.company_name}"

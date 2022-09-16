@@ -5,6 +5,9 @@ from user.models import Client, User
 class EventStatus(models.Model):
     lib = models.TextField()
 
+    def __str__(self) -> str:
+        return self.lib
+
 
 class Event(models.Model):
     client = models.ForeignKey(to=Client, on_delete=models.CASCADE)

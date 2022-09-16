@@ -1,3 +1,5 @@
+from django.contrib.auth.models import Group
+from queue import Empty
 from rest_framework import serializers
 from user.models import User, Client
 
@@ -5,7 +7,7 @@ from user.models import User, Client
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("username", "password", "email", "first_name", "last_name", "groups")
+        fields = "__all__"
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -17,12 +19,19 @@ class UserSerializer(serializers.ModelSerializer):
 
         user.set_password(validated_data["password"])
         user.groups.add(validated_data["groups"][0])
-        user.is_staff = True if (user.groups.get().name == "managers") else False
+        if user.groups.get():
+            user.is_staff = user.groups.get().name == "managers"
         user.save()
         return user
 
 
 class ClientSerializer(serializers.ModelSerializer):
+    sales_contact = serializers.SlugRelatedField(
+        queryset=User.objects.filter(groups__name="sales"),
+        slug_field="username",
+        required=False,
+    )
+
     class Meta:
         model = Client
         fields = "__all__"

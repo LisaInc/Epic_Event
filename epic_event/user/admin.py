@@ -10,11 +10,9 @@ class UserAdmin(admin.ModelAdmin):
         kwargs["form"] = UserForm
         return super().get_form(request, obj, **kwargs)
 
-    def create(self, request, obj, form, change):
-        print(form["password"].value())
-        obj.set_password(form["password"].value())
-        obj.save()
-        obj.is_staff = bool(obj.groups.filter(name="management"))
+    def change(self, request, obj, form, change):
+        print(change)
+        print(obj)
         obj.save()
 
 
