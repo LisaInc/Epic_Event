@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     "user",
     "event",
     "contract",
+    "drf_api_logger",
 ]
 
 REST_FRAMEWORK = {
@@ -55,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
 ROOT_URLCONF = "epic_event.urls"
@@ -141,3 +146,21 @@ AUTH_USER_MODEL = "user.User"
 LOGIN_REDIRECT_URL = "/"
 
 CSRF_COOKIE_DOMAIN = "127.0.0.1"
+
+# LOG SENTRY
+
+sentry_sdk.init(
+    dsn="https://df5d3d31cbfc4d6a9445d364452eb173@o1427683.ingest.sentry.io/6777158",
+    integrations=[
+        DjangoIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)

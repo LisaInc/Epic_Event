@@ -1,3 +1,4 @@
+from typing_extensions import Required
 from django.db import models
 from user.models import Client, User
 
@@ -17,4 +18,4 @@ class Event(models.Model):
     attendees = models.IntegerField()
     event_date = models.DateTimeField()
     notes = models.CharField(max_length=500)
-    support_contact = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
+    support_contact = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True, default='')

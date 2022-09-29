@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from user.permissions import UserPermission, ClientPermission
+from user.permissions import ClientPermission, UserPermission
 from user.models import User, Client
 from user.serializers import UserSerializer, ClientSerializer
 from rest_framework.viewsets import ModelViewSet
@@ -35,3 +35,10 @@ class ClientViewSet(ModelViewSet):
                 for event in Event.objects.filter(support_contact=self.request.user)
             ]
         return Client.objects.all()
+
+
+class UserViewSet(ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, UserPermission]
+    http_method_names = ["get", "post", "put", "delete"]
+    queryset = User.objects.all()

@@ -18,9 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
         user.set_password(validated_data["password"])
-        user.groups.add(validated_data["groups"][0])
-        if user.groups.get():
-            user.is_staff = user.groups.get().name == "managers"
+        if validated_data["groups"]:
+            user.groups.add(validated_data["groups"][0])
+            if user.groups.get():
+                user.is_staff = user.groups.get().name == "managers"
         user.save()
         return user
 

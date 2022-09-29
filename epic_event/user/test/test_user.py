@@ -19,14 +19,12 @@ class UserTestCase(TestCase):
 
         self.assertEqual(test_manager.username, "test_manager")
         self.assertEqual(test_manager.groups.get().name, "manager")
-        # self.assertEqual(test_manager.is_staff, True)
 
         test_support = User.objects.get(username="test_support")
         test_support.groups.add(Group.objects.get(name="support"))
 
         self.assertEqual(test_support.username, "test_support")
         self.assertEqual(test_support.groups.get().name, "support")
-        # self.assertEqual(test_support.is_staff, False)
 
 
 @pytest.mark.django_db

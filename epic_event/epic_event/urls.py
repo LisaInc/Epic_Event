@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from contract.views import ContractViewSet
-from user.views import ClientViewSet
+from user.views import ClientViewSet, UserViewSet
 from event.views import EventViewSet
 
 
@@ -25,6 +25,7 @@ router = routers.DefaultRouter()
 router.register("contract", ContractViewSet, basename="contract")
 router.register("event", EventViewSet, basename="event")
 router.register("client", ClientViewSet, basename="client")
+router.register("user", UserViewSet, basename="user")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

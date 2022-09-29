@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 
-class UserPermission:
+class CheckUserPermission:
     def is_sales(user):
         return bool(user.groups.filter(name="sales"))
 
@@ -17,7 +17,12 @@ class ClientPermission(BasePermission):
         if view.action == "list":
             return True
         if view.action in ("create", "update"):
-            return UserPermission.is_sales(request.user) or UserPermission.is_manager(
+            return CheckUserPermission.is_sales(
                 request.user
-            )
-        return UserPermission.is_manager(request.user)
+            ) or CheckUserPermission.is_manager(request.user)
+        return CheckUserPermission.is_manager(request.user)
+
+
+class UserPermission(BasePermission):
+    def has_permission(self, request, view):
+        return CheckUserPermission.is_manager(request.user)
