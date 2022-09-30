@@ -30,10 +30,11 @@ class ClientViewSet(ModelViewSet):
                 Q(sales_contact=self.request.user) | Q(sales_contact__isnull=True)
             )
         elif self.request.user.groups.filter(name="supports"):
-            return [
-                event.client
+            client_id = [
+                event.client.id
                 for event in Event.objects.filter(support_contact=self.request.user)
             ]
+            return Client.objects.filter(pk__in=client_id)
         return Client.objects.all()
 
 
