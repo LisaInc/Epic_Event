@@ -85,10 +85,7 @@ class TestUsers(TestCase):
             assert response.status_code == 201
         else:
             assert response.status_code == 403
-            assert (
-                Client.objects.filter(first_name=f"create_{user.username}").exists()
-                == False
-            )
+            assert Client.objects.filter(first_name=f"create_{user.username}").exists() == False
 
     def delete_client(self, user):
         client_delete = Client.objects.create(
@@ -126,7 +123,7 @@ class TestUsers(TestCase):
             "company_name": "company",
             "date_update": datetime.now(tz=timezone.utc),
         }
-        response = self.client.put(
+        response = self.cli.put(
             f"/client/{client_to_change.id}/",
             client_changes,
             content_type="application/json",
@@ -137,6 +134,4 @@ class TestUsers(TestCase):
             assert Client.objects.filter(first_name=f"changed_{user.username}").exists()
         else:
             assert response.status_code == 403
-            assert Client.objects.filter(
-                first_name=f"to_change_{user.username}"
-            ).exists()
+            assert Client.objects.filter(first_name=f"to_change_{user.username}").exists()
